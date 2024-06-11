@@ -12,9 +12,8 @@ public class VistaLogin extends JFrame {
     private JTextField campoUsuario;
 
     public VistaLogin(ControladorLogin controladorLogin) {
-        SwingUtilities.invokeLater(this::inicializarComponentes);
         this.controladorLogin = controladorLogin;
-        inicializarComponentes();
+        SwingUtilities.invokeLater(this::inicializarComponentes);
     }
 
     public void inicializarComponentes() {
@@ -73,7 +72,6 @@ public class VistaLogin extends JFrame {
         panelPrincipal.add(btnInicioSesion);
         btnInicioSesion.addActionListener(e ->
             controladorLogin.iniciarSesion()
-
         );
 
         // Creando el boton para registrarse
@@ -83,7 +81,6 @@ public class VistaLogin extends JFrame {
         panelPrincipal.add(btnRegistro);
         btnRegistro.addActionListener(e ->
             controladorLogin.registrarse()
-
         );
     }
 

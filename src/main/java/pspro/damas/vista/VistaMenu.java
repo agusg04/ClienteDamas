@@ -1,34 +1,33 @@
 package pspro.damas.vista;
 
-import pspro.damas.controlador.ControladorLogin;
 import pspro.damas.controlador.ControladorMenu;
 import pspro.damas.vista.menu.Panel1;
+import pspro.damas.vista.menu.Panel2;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class VistaMenu extends JFrame{
     private final ControladorMenu controladorMenu;
 
     JPanel panelContenido = new JPanel();
-
     private Panel1 panel1;
-    //private Panel2 panel2;
+    private Panel2 panel2;
     //private Panel3 panel3;
 
 
     public VistaMenu(ControladorMenu controladorMenu) {
-        SwingUtilities.invokeLater(this::inicializarComponentes);
         this.controladorMenu = controladorMenu;
-        inicializarComponentes();
+        this.panel1 = new Panel1(controladorMenu);
+        SwingUtilities.invokeLater(this::inicializarComponentes);
+
     }
 
     public void inicializarComponentes() {
         setSize(1000, 700);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         // Panel principal que contiene todos los elementos
@@ -37,31 +36,50 @@ public class VistaMenu extends JFrame{
 
         // Panel superior con tres botones
         JPanel panelSuperior = new JPanel(new GridLayout(1, 3));
-        JButton btnPanel1 = new JButton("Nueva Partida");
-        btnPanel1.setFont(new Font("Source Sans Pro Black", Font.PLAIN, 15));
-        JButton btnPanel2 = new JButton("Partidas en Curso");
-        btnPanel2.setFont(new Font("Source Sans Pro Black", Font.PLAIN, 15));
-        JButton btnPanel3 = new JButton("Partidas Pasadas");
-        btnPanel3.setFont(new Font("Source Sans Pro Black", Font.PLAIN, 15));
+        JButton btnNuevaPartida = new JButton("Nueva Partida");
+        btnNuevaPartida.setFont(new Font("Source Sans Pro Black", Font.PLAIN, 15));
+        JButton btnPartidasEnCurso = new JButton("Partidas en Curso");
+        btnPartidasEnCurso.setFont(new Font("Source Sans Pro Black", Font.PLAIN, 15));
+        JButton btnPartidasPasadas = new JButton("Partidas Pasadas");
+        btnPartidasPasadas.setFont(new Font("Source Sans Pro Black", Font.PLAIN, 15));
 
-        panelSuperior.add(btnPanel1);
-        panelSuperior.add(btnPanel2);
-        panelSuperior.add(btnPanel3);
+        panelSuperior.add(btnNuevaPartida);
+        panelSuperior.add(btnPartidasEnCurso);
+        panelSuperior.add(btnPartidasPasadas);
 
         // Manejador de eventos para los botones
-        btnPanel1.addActionListener(e -> mostrarPanel(panel1));
+        btnNuevaPartida.addActionListener(e -> {
+            mostrarPanel(panel1);
+            actualizarUsuarios();
+        });
 
-        //btnPanel2.addActionListener(e -> mostrarPanel(panel2));
-        // Puedes agregar lógica para el Panel2 aquí
+        //actualizar panel por primera vez?
+        //actualizarUsuarios();
 
-        //btnPanel3.addActionListener(e -> mostrarPanel(panel3));
-            // Puedes agregar lógica para el Panel3 aquí
+        btnPartidasEnCurso.addActionListener(e -> {
+            mostrarPanel(panel2);
+            //actualizarPartidas();
+        });
+
+        //btnPartidasEnCurso.addActionListener(e -> mostrarPanel(panel2));
+        //panel2.actualizarPartidas();
+
+        //btnPartidasPasadas.addActionListener(e -> mostrarPanel(panel3);
+        //panel3.actualizarPartidas();
 
         panelPrincipal.add(panelSuperior, BorderLayout.NORTH);
 
         // Panel de contenido
-        panelPrincipal.add(panelContenido, BorderLayout.CENTER);
         panelContenido.setLayout(new BorderLayout(0,0));
+
+        panelPrincipal.add(panelContenido, BorderLayout.CENTER);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                controladorMenu.finalizarPrograma();
+            }
+        });
     }
 
     private void mostrarPanel(JPanel panel) {
@@ -84,5 +102,11 @@ public class VistaMenu extends JFrame{
 
     public void cerrarVentana() {
         dispose();
+    }
+
+    public void actualizarUsuarios() {
+        if (panel1 != null) {
+            panel1.actualizarUsuarios();
+        }
     }
 }

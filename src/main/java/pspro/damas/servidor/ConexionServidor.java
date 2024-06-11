@@ -1,19 +1,22 @@
 package pspro.damas.servidor;
 
 import pspro.damas.controlador.ControladorCliente;
+import datos.DatosUsuario;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ConexionServidor {
 
     ControladorCliente controladorCliente;
-    private final String HOST = "localhost";
-    private final int PUERTO = 5000;
+    private static final String HOST = "localhost";
+    private static final int PUERTO = 5000;
     private Socket socketCliente;
     private ObjectOutputStream flujoSalida;
     private ObjectInputStream flujoEntrada;
@@ -64,16 +67,38 @@ public class ConexionServidor {
         return 0;
     }
 
+/*
     public void leerPartidas(int opcion) {
         try {
-
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
 
         switch (opcion) {
             case 1:
         }
+    }
+
+ */
+
+    public DatosUsuario leerDatosUsuario() {
+        try {
+            return (DatosUsuario) flujoEntrada.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Map<Integer, String> leerJugadoreDisponibles() {
+        try {
+            return (HashMap<Integer, String>) flujoEntrada.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return new HashMap<>();
     }
 
     public boolean enviarOrdenLogin(String nombre, String contrasenia) {

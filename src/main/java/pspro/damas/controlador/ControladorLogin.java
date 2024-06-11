@@ -1,5 +1,6 @@
 package pspro.damas.controlador;
 
+import datos.DatosUsuario;
 import pspro.damas.servidor.ConexionServidor;
 import pspro.damas.vista.VistaLogin;
 
@@ -7,12 +8,10 @@ public class ControladorLogin {
 
     private final VistaLogin vistaLogin;
     private final ConexionServidor conexionServidor;
-    private final ControladorMenu controladorMenu;
 
     public ControladorLogin(ConexionServidor conexionServidor) {
         this.conexionServidor 	= conexionServidor;
         this.vistaLogin 		= new VistaLogin(this);
-        this.controladorMenu    = new ControladorMenu(conexionServidor);
     }
 
     public void mostrarVistaLogin() {
@@ -30,33 +29,35 @@ public class ControladorLogin {
         boolean exitoso;
 
         if(nombreUsuario.isEmpty() || contrasenia.isEmpty()) {
-            accionFallido("Error: Los campos no pueden estar vacíos");
+            mostrarAccionFallido("Error: Los campos no pueden estar vacíos");
             return;
         }
 
         exitoso = conexionServidor.enviarOrdenLogin(nombreUsuario, contrasenia);
 
         if (exitoso) {
-            inicioSesionExitoso();
+            mostrarInicioSesionExitoso();
+            DatosUsuario datosUsuario = conexionServidor.leerDatosUsuario();
+            ControladorMenu controladorMenu = new ControladorMenu(conexionServidor, datosUsuario);
             controladorMenu.mostrarVistaMenu();
         } else {
-            accionFallido("Error: El usuario o la contraseña son incorrectos");
+            mostrarAccionFallido("Error: El usuario o la contraseña son incorrectos");
         }
     }
 
-    private void inicioSesionExitoso(){
+    private void mostrarInicioSesionExitoso(){
         System.out.println("Inicio de sesión exitoso");
         vistaLogin.mostrarDialogoLoginExitoso();
         this.cerrarVistaLogin();
     }
 
-    private void registroExitoso(){
+    private void mostrarRegistroExitoso(){
         System.out.println("Registro exitoso");
         vistaLogin.vaciarCampos();
         vistaLogin.mostrarDialogoRegistroExitoso();
     }
 
-    private void accionFallido(String mensaje){
+    private void mostrarAccionFallido(String mensaje){
         System.out.println(mensaje);
         vistaLogin.vaciarCampos();
         vistaLogin.mostrarDialogoFallido(mensaje);
@@ -70,17 +71,16 @@ public class ControladorLogin {
         boolean exitoso;
 
         if(nombreUsuario.isEmpty() || contrasenia.isEmpty()) {
-            accionFallido("Error: Los campos no pueden estar vacíos");
+            mostrarAccionFallido("Error: Los campos no pueden estar vacíos");
             return;
         }
 
         exitoso = conexionServidor.enviarOrdenRegistro(nombreUsuario, contrasenia);
 
         if (exitoso) {
-            registroExitoso();
-            //vistaMenu.mostrar();
+            mostrarRegistroExitoso();
         } else {
-            accionFallido("Error: Este nombre ya está en uso");
+            mostrarAccionFallido("Error: Este nombre ya está en uso");
         }
     }
 
