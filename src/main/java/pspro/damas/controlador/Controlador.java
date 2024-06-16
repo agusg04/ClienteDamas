@@ -160,4 +160,7 @@ public class Controlador extends Thread {
         vistaMenu.actualizarTablero(idTableroActualizar);
     }
 
+    public void mostrarMensajeMovimientoInvalido(int idPartida) {
+        vistaMenu.mostrarMensajeMovimientoInvalido("Tu movimiento no es válido", idPartida);
+    }
 }

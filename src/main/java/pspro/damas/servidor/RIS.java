@@ -101,9 +101,6 @@ public class RIS extends Thread {
         return Collections.emptyMap();
     }
 
-
-
-
     @Override
     public void run() {
         try {
@@ -175,6 +172,11 @@ public class RIS extends Thread {
                     case 11:
                         int idTableroActualizar = leerEntero();
                         controlador.actualizarTablero(idTableroActualizar);
+                        break;
+
+                    case 12:
+                        int idPartida = leerEntero();
+                        controlador.mostrarMensajeMovimientoInvalido(idPartida);
                         break;
 
 

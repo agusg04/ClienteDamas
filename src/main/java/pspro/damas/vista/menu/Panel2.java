@@ -197,7 +197,7 @@ public class Panel2 extends JPanel {
     }
 
     private TableroFrame abrirPartida(Partida partida) {
-        TableroFrame tableroFrame = new TableroFrame(partida, partida.getColorJugador(controlador.getIdUsuario()), this, controlador);
+        TableroFrame tableroFrame = new TableroFrame(partida, this, controlador);
         tablerosCreados.put(partida.getIdPartida(), tableroFrame);
         if (tableroFrame != null) {
             tableroFrame.setVisible(true);
@@ -211,7 +211,7 @@ public class Panel2 extends JPanel {
         JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    public void cerrarTablero(Partida partidaAbierta) {
+    public void cerrarTableroInterno(Partida partidaAbierta) {
         if (partidaAbierta == null) {
             mostrarMensajeError("Partida nula, no se puede cerrar el tablero.");
             return;
@@ -235,17 +235,27 @@ public class Panel2 extends JPanel {
     }
 
     public void actualizarTablero(int idTableroActualizar) {
-        if (tablerosCreados.containsKey(idTableroActualizar)) {
-            tablerosCreados.get(idTableroActualizar).cerrarTablero();
-            tablerosCreados.remove(idTableroActualizar);
-            Partida partidaActualizada = partidasOnline.getOrDefault(idTableroActualizar, partidasOffline.get(idTableroActualizar));
-            if (partidaActualizada == null) {
-                mostrarMensajeError("No se pudo encontrar la partida para actualizar.");
-                return;
-            }
+        // Obtener el TableroFrame existente
+        TableroFrame tableroFrame = tablerosCreados.get(idTableroActualizar);
+        if (tableroFrame != null) {
+            // Actualizar la partida en el TableroFrame existente
+            Partida nuevaPartida = partidasOffline.getOrDefault(idTableroActualizar, partidasOnline.get(idTableroActualizar));
+            tableroFrame.setPartida(nuevaPartida);
 
-            // Abrir un nuevo tablero con la partida actualizada
-            abrirPartida(partidaActualizada);
+            // Actualizar los componentes gráficos del TableroFrame
+            tableroFrame.actualizarComponentes(nuevaPartida);
+            tableroFrame.repaint(); // Asegurar que se repinte correctamente
+
         }
     }
+
+
+    public void mostrarMensajeMovimientoInvalido(String mensaje, int idPartida) {
+        tablerosCreados.get(idPartida).mostrarMensaje(mensaje);
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje);
+    }
+
 }

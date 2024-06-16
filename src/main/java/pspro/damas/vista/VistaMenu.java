@@ -58,21 +58,13 @@ public class VistaMenu extends JFrame{
             mostrarPanel(panel1)
         );
 
-        //actualizar panel por primera vez?
-        //actualizarUsuarios();
-
         btnPartidasEnCurso.addActionListener(e ->
             mostrarPanel(panel2)
         );
 
-        //btnPartidasEnCurso.addActionListener(e -> mostrarPanel(panel2));
-        //panel2.actualizarPartidas();
-
         btnPartidasPasadas.addActionListener(e ->
              mostrarPanel(panel3)
         );
-        //btnPartidasPasadas.addActionListener(e -> mostrarPanel(panel3);
-        //panel3.actualizarPartidas();
 
         panelPrincipal.add(panelSuperior, BorderLayout.NORTH);
 
@@ -130,7 +122,11 @@ public class VistaMenu extends JFrame{
     }
 
     public void mostrarMensaje(String mensaje) {
-        JOptionPane.showMessageDialog(this, mensaje);
+        panel2.mostrarMensaje(mensaje);
+    }
+
+    public void mostrarMensajeMovimientoInvalido(String mensaje, int idPartida) {
+        panel2.mostrarMensajeMovimientoInvalido(mensaje, idPartida);
     }
 
     public void cerrarTablero(int idTablero) {
@@ -138,6 +134,9 @@ public class VistaMenu extends JFrame{
     }
 
     public void actualizarTablero(int idTableroActualizar) {
-        panel2.actualizarTablero(idTableroActualizar);
+        if (panel2 != null) {
+            panel2.actualizarTablero(idTableroActualizar);
+        }
     }
+
 }
