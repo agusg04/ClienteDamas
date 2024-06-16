@@ -1,24 +1,26 @@
 package pspro.damas.vista;
 
-import pspro.damas.controlador.ControladorLogin;
+import pspro.damas.controlador.Controlador;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class VistaLogin extends JFrame {
 
-    private final ControladorLogin controladorLogin;
+    private final Controlador controlador;
     private JPasswordField campoContrasenia;
     private JTextField campoUsuario;
 
-    public VistaLogin(ControladorLogin controladorLogin) {
-        this.controladorLogin = controladorLogin;
+    public VistaLogin(Controlador controlador) {
+        this.controlador = controlador;
         SwingUtilities.invokeLater(this::inicializarComponentes);
     }
 
     public void inicializarComponentes() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("4 En Raya");
+        setTitle("Damas");
         setSize(600, 600);
         setLocationRelativeTo(null);
 
@@ -71,7 +73,7 @@ public class VistaLogin extends JFrame {
         btnInicioSesion.setBounds(110, 423, 138, 40);
         panelPrincipal.add(btnInicioSesion);
         btnInicioSesion.addActionListener(e ->
-            controladorLogin.iniciarSesion()
+            controlador.iniciarSesion()
         );
 
         // Creando el boton para registrarse
@@ -80,8 +82,15 @@ public class VistaLogin extends JFrame {
         btnRegistro.setBounds(340, 423, 138, 40);
         panelPrincipal.add(btnRegistro);
         btnRegistro.addActionListener(e ->
-            controladorLogin.registrarse()
+                controlador.registrarse()
         );
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                controlador.finalizarPrograma();
+            }
+        });
     }
 
     public void mostrarVentana() {

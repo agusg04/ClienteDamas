@@ -1,30 +1,36 @@
 package pspro.damas.vista;
 
-import pspro.damas.controlador.ControladorMenu;
+import modelo.Partida;
+import modelo.PartidaTerminada;
+import pspro.damas.controlador.Controlador;
 import pspro.damas.vista.menu.Panel1;
 import pspro.damas.vista.menu.Panel2;
+import pspro.damas.vista.menu.Panel3;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Map;
 
 public class VistaMenu extends JFrame{
-    private final ControladorMenu controladorMenu;
-
+    private final Controlador controlador;
     JPanel panelContenido = new JPanel();
     private Panel1 panel1;
     private Panel2 panel2;
-    //private Panel3 panel3;
+    private Panel3 panel3;
 
 
-    public VistaMenu(ControladorMenu controladorMenu) {
-        this.controladorMenu = controladorMenu;
-        this.panel1 = new Panel1(controladorMenu);
+    public VistaMenu(Controlador controlador) {
+        this.controlador = controlador;
+        this.panel1 = new Panel1(controlador);
+        this.panel2 = new Panel2(controlador);
+        this.panel3 = new Panel3(controlador);
         SwingUtilities.invokeLater(this::inicializarComponentes);
 
     }
 
     public void inicializarComponentes() {
+        setTitle("Damas");
         setSize(1000, 700);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -48,22 +54,23 @@ public class VistaMenu extends JFrame{
         panelSuperior.add(btnPartidasPasadas);
 
         // Manejador de eventos para los botones
-        btnNuevaPartida.addActionListener(e -> {
-            mostrarPanel(panel1);
-            actualizarUsuarios();
-        });
+        btnNuevaPartida.addActionListener(e ->
+            mostrarPanel(panel1)
+        );
 
         //actualizar panel por primera vez?
         //actualizarUsuarios();
 
-        btnPartidasEnCurso.addActionListener(e -> {
-            mostrarPanel(panel2);
-            //actualizarPartidas();
-        });
+        btnPartidasEnCurso.addActionListener(e ->
+            mostrarPanel(panel2)
+        );
 
         //btnPartidasEnCurso.addActionListener(e -> mostrarPanel(panel2));
         //panel2.actualizarPartidas();
 
+        btnPartidasPasadas.addActionListener(e ->
+             mostrarPanel(panel3)
+        );
         //btnPartidasPasadas.addActionListener(e -> mostrarPanel(panel3);
         //panel3.actualizarPartidas();
 
@@ -77,7 +84,7 @@ public class VistaMenu extends JFrame{
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                controladorMenu.finalizarPrograma();
+                controlador.finalizarPrograma();
             }
         });
     }
@@ -104,9 +111,33 @@ public class VistaMenu extends JFrame{
         dispose();
     }
 
-    public void actualizarUsuarios() {
+    public void actualizarUsuarios(Map<Integer, String> usuariosConectados) {
         if (panel1 != null) {
-            panel1.actualizarUsuarios();
+            panel1.actualizarUsuarios(usuariosConectados);
         }
+    }
+
+    public void actualizarPartidasEnCurso(Map<Integer, Partida> partidas, boolean online) {
+        if (panel2 != null) {
+            panel2.actualizarPartidas(partidas, online);
+        }
+    }
+
+    public void cargarPartidasTerminadas(Map<Integer, PartidaTerminada> partidasTerminadas) {
+        if (panel3 != null) {
+            panel3.cargarRepeticiones(partidasTerminadas);
+        }
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje);
+    }
+
+    public void cerrarTablero(int idTablero) {
+        panel2.cerrarTableroExterno(idTablero);
+    }
+
+    public void actualizarTablero(int idTableroActualizar) {
+        panel2.actualizarTablero(idTableroActualizar);
     }
 }
