@@ -73,6 +73,8 @@ public class VistaMenu extends JFrame{
 
         panelPrincipal.add(panelContenido, BorderLayout.CENTER);
 
+        mostrarPanel(panel2);
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
