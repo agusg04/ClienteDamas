@@ -179,6 +179,23 @@ public class RIS extends Thread {
                         controlador.mostrarMensajeMovimientoInvalido(idPartida);
                         break;
 
+                    case 13:
+                        int idPartidaNueva = leerEntero();
+                        controlador.mostrarMensajeCreacionPartida(idPartidaNueva);
+                        break;
+
+                    case 14:
+                        controlador.mostrarMensajeVictoria();
+                        int idTableroGanado = leerEntero();
+                        controlador.cerrarTablero(idTableroGanado);
+                        break;
+
+                    case 15:
+                        int idTableroGanoAdversario = leerEntero();
+                        controlador.mostrarMensajeVictoriaAdversario(idTableroGanoAdversario);
+                        controlador.cerrarTablero(idTableroGanoAdversario);
+                        break;
+
 
                     default:
                         // Manejar otros casos según sea necesario

@@ -3,6 +3,7 @@ package pspro.damas.controlador;
 import datos.DatosUsuario;
 import modelo.Partida;
 import modelo.PartidaTerminada;
+import modelo.Pieza;
 import pspro.damas.servidor.EIS;
 import pspro.damas.vista.VistaLogin;
 import pspro.damas.vista.VistaMenu;
@@ -127,13 +128,16 @@ public class Controlador extends Thread {
         vistaMenu.cargarPartidasTerminadas(partidasTerminadas);
     }
 
-
     public void iniciarPartida(int idSeleccionado) {
         flujoSalida.enviarTexto("1;" + idSeleccionado);
     }
 
     public void moverFicha(int idPartida, int idAdversario, int iniX, int iniY, int finX, int finY) {
         flujoSalida.enviarTexto("3;" + idPartida + ";" + idAdversario + ";" + iniX + ";" + iniY + ";" + finX + ";" + finY);
+    }
+
+    public void capturarFicha(int idPartida, int idAdversario, int filaOrigen, int columnaOrigen, int filaDestino, int columnaDestino) {
+        flujoSalida.enviarTexto("4;" + idPartida + ";" + idAdversario + ";" + filaOrigen + ";" + columnaOrigen + ";" + filaDestino + ";" + columnaDestino);
     }
 
     public void rendirse(int idPartida, int idAdversario) {
@@ -148,8 +152,16 @@ public class Controlador extends Thread {
         vistaMenu.mostrarMensaje("!Te rendiste en la partida!");
     }
 
+    public void mostrarMensajeVictoria() {
+        vistaMenu.mostrarMensaje("!Ganaste la partida!");
+    }
+
     public void mostrarMensajeRendicionAdversario(int idTablero) {
         vistaMenu.mostrarMensaje("El adversario se rindió en la partida " + idTablero);
+    }
+
+    public void mostrarMensajeVictoriaAdversario(int idTablero) {
+        vistaMenu.mostrarMensaje("El adversario ganó la partida " + idTablero);
     }
 
     public void cerrarTablero(int idTablero) {
@@ -163,4 +175,9 @@ public class Controlador extends Thread {
     public void mostrarMensajeMovimientoInvalido(int idPartida) {
         vistaMenu.mostrarMensajeMovimientoInvalido("Tu movimiento no es válido", idPartida);
     }
+
+    public void mostrarMensajeCreacionPartida(int idPartidaNueva) {
+        vistaMenu.mostrarMensaje("Se ha creado la partida  " + idPartidaNueva);
+    }
+
 }

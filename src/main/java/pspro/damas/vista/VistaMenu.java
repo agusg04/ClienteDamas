@@ -122,7 +122,7 @@ public class VistaMenu extends JFrame{
     }
 
     public void mostrarMensaje(String mensaje) {
-        panel2.mostrarMensaje(mensaje);
+        JOptionPane.showMessageDialog(this, mensaje);
     }
 
     public void mostrarMensajeMovimientoInvalido(String mensaje, int idPartida) {
