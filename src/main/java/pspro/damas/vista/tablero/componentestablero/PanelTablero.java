@@ -55,8 +55,14 @@ public class PanelTablero extends JPanel {
                     Pieza pieza = partida.getTablero().getPieza(i - 1, j - 1);
                     if (pieza != null) {
                         if (pieza.getColor() == ColorPieza.BLANCA) {
+                            if (pieza.isEsDama()) {
+                                boton.setIcon(new ImageIcon("src/main/resources/whiteKing.png"));
+                            }
                             boton.setIcon(new ImageIcon("src/main/resources/white.png"));
                         } else {
+                            if (pieza.isEsDama()) {
+                                boton.setIcon(new ImageIcon("src/main/resources/redKing.png"));
+                            }
                             boton.setIcon(new ImageIcon("src/main/resources/red.png"));
                         }
                     }
