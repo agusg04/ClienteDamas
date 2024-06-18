@@ -108,14 +108,26 @@ public class RepeticionFrame extends JFrame {
                 Pieza pieza = tablero.getPieza(i, j);
                 JButton boton = casillas[i][j];
                 if (pieza != null) {
-                    if (pieza.getColor() == ColorPieza.BLANCA) {
-                        boton.setIcon(new ImageIcon(new ImageIcon("src/main/resources/white.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-                    } else {
-                        boton.setIcon(new ImageIcon(new ImageIcon("src/main/resources/red.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
-                    }
+                    pintarPieza(boton, pieza);
                 } else {
                     boton.setIcon(null);
                 }
+            }
+        }
+    }
+
+    private void pintarPieza(JButton boton, Pieza pieza) {
+        if (pieza.getColor() == ColorPieza.BLANCA) {
+            if (pieza.isEsDama()) {
+                boton.setIcon(new ImageIcon("src/main/resources/whiteKing.png"));
+            } else {
+                boton.setIcon(new ImageIcon("src/main/resources/white.png"));
+            }
+        } else if (pieza.getColor() == ColorPieza.NEGRA){
+            if (pieza.isEsDama()) {
+                boton.setIcon(new ImageIcon("src/main/resources/redKing.png"));
+            } else {
+                boton.setIcon(new ImageIcon("src/main/resources/red.png"));
             }
         }
     }

@@ -54,19 +54,25 @@ public class PanelTablero extends JPanel {
                     // Cargar la ficha correspondiente del tablero
                     Pieza pieza = partida.getTablero().getPieza(i - 1, j - 1);
                     if (pieza != null) {
-                        if (pieza.getColor() == ColorPieza.BLANCA) {
-                            if (pieza.isEsDama()) {
-                                boton.setIcon(new ImageIcon("src/main/resources/whiteKing.png"));
-                            }
-                            boton.setIcon(new ImageIcon("src/main/resources/white.png"));
-                        } else {
-                            if (pieza.isEsDama()) {
-                                boton.setIcon(new ImageIcon("src/main/resources/redKing.png"));
-                            }
-                            boton.setIcon(new ImageIcon("src/main/resources/red.png"));
-                        }
+                        pintarPieza(boton, pieza);
                     }
                 }
+            }
+        }
+    }
+
+    private void pintarPieza(JButton boton, Pieza pieza) {
+        if (pieza.getColor() == ColorPieza.BLANCA) {
+            if (pieza.isEsDama()) {
+                boton.setIcon(new ImageIcon("src/main/resources/whiteKing.png"));
+            } else {
+                boton.setIcon(new ImageIcon("src/main/resources/white.png"));
+            }
+        } else if (pieza.getColor() == ColorPieza.NEGRA){
+            if (pieza.isEsDama()) {
+                boton.setIcon(new ImageIcon("src/main/resources/redKing.png"));
+            } else {
+                boton.setIcon(new ImageIcon("src/main/resources/red.png"));
             }
         }
     }
@@ -78,7 +84,7 @@ public class PanelTablero extends JPanel {
                 Pieza pieza = nuevaPartida.getTablero().getPieza(i, j);
                 JButton boton = casillas[i][j];
                 if (pieza != null) {
-                    boton.setIcon(new ImageIcon("src/main/resources/" + (pieza.getColor() == ColorPieza.BLANCA ? "white.png" : "red.png")));
+                    pintarPieza(boton, pieza);
                 } else {
                     boton.setIcon(null);
                 }

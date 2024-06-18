@@ -160,8 +160,8 @@ public class Controlador extends Thread {
         vistaMenu.mostrarMensaje("El adversario se rindió en la partida " + idTablero);
     }
 
-    public void mostrarMensajeVictoriaAdversario(int idTablero) {
-        vistaMenu.mostrarMensaje("El adversario ganó la partida " + idTablero);
+    public void mostrarMensajeVictoriaAdversario() {
+        vistaMenu.mostrarMensaje("El adversario ganó la partida");
     }
 
     public void cerrarTablero(int idTablero) {

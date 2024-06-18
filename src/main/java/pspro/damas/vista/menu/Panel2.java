@@ -192,6 +192,14 @@ public class Panel2 extends JPanel {
         return partidas.get(idPartida);
     }
 
+    public Partida encontrarPartidaPorId(int idPartida) {
+        Partida partida = partidasOnline.get(idPartida);
+        if (partida == null) {
+            partida = partidasOffline.get(idPartida);
+        }
+        return partida;
+    }
+
     private boolean estaYaCreado(int idPartida) {
         return tablerosCreados.containsKey(idPartida);
     }
@@ -235,18 +243,22 @@ public class Panel2 extends JPanel {
     }
 
     public void actualizarTablero(int idTableroActualizar) {
-        // Obtener el TableroFrame existente
-        TableroFrame tableroFrame = tablerosCreados.get(idTableroActualizar);
-        if (tableroFrame != null) {
-            // Actualizar la partida en el TableroFrame existente
-            Partida nuevaPartida = partidasOffline.getOrDefault(idTableroActualizar, partidasOnline.get(idTableroActualizar));
-            tableroFrame.setPartida(nuevaPartida);
-
-            // Actualizar los componentes gráficos del TableroFrame
-            tableroFrame.actualizarComponentes(nuevaPartida);
-            tableroFrame.repaint(); // Asegurar que se repinte correctamente
-
+        tablerosCreados.get(idTableroActualizar).cerrarTablero();
+        tablerosCreados.remove(idTableroActualizar);
+        Partida partida = encontrarPartidaPorId(idTableroActualizar);
+        TableroFrame tableroFrame = new TableroFrame(partida, this, controlador);
+        tableroFrame.setVisible(true);
+        tablerosCreados.put(idTableroActualizar, tableroFrame);
+        /*
+        if (tableroFrame!= null) {
+            if (partida!= null) {
+                //tableroFrame.setPartida(partida);
+                tableroFrame.actualizarComponentes(partida);
+                //tableroFrame.repaint(); // Asegurar que se repinte correctamente
+            }
         }
+
+         */
     }
 
 

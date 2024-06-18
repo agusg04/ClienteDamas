@@ -186,14 +186,14 @@ public class RIS extends Thread {
 
                     case 14:
                         controlador.mostrarMensajeVictoria();
-                        int idTableroGanado = leerEntero();
-                        controlador.cerrarTablero(idTableroGanado);
+                        //int idTableroGanado = leerEntero();
+                        //controlador.cerrarTablero(idTableroGanado);
                         break;
 
                     case 15:
-                        int idTableroGanoAdversario = leerEntero();
-                        controlador.mostrarMensajeVictoriaAdversario(idTableroGanoAdversario);
-                        controlador.cerrarTablero(idTableroGanoAdversario);
+                        //int idTableroGanoAdversario = leerEntero();
+                        controlador.mostrarMensajeVictoriaAdversario();
+                        //controlador.cerrarTablero(idTableroGanoAdversario);
                         break;
 
 
